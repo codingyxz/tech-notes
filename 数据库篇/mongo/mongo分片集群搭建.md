@@ -4,41 +4,42 @@
 # 1、环境准备
 
 - 安装lib库
-   - sudo yum install libcurl openssl
+  - sudo yum install libcurl openssl
 - 查看系统版本号，下载对应的mongo版本
-   - 通过 cat /etc/issus 或者 cat /etc/redhat-release 查看
+  - 通过 cat /etc/issus 或者 cat /etc/redhat-release 查看
 
-![image-20220803210106892](.images/image-20220803210106892.png)
-![img](.images/1643283470707-e8bf64cf-0d68-4f94-aad3-90128fd09da9-20220803210206826.png)
+![image-20220803210106892](.images_mongo分片集群搭建/image-20220803210106892.png)
+![img](.images_mongo分片集群搭建/1643283470707-e8bf64cf-0d68-4f94-aad3-90128fd09da9-20220803210206826.png)
 
 - 下载mongodb
-   - wget  [https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-4.2.18.tgz](https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-4.2.18.tgz)
+  - wget  [https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-4.2.18.tgz](https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-4.2.18.tgz)
 
 - 解压、重命名
-   - tar -zxvf  mongodb-linux-x86_64-rhel70-4.2.18.tgz
-   - mv 解压文件  /user/local/mongodb4.2
+  - tar -zxvf  mongodb-linux-x86_64-rhel70-4.2.18.tgz
+  - mv 解压文件  /user/local/mongodb4.2
 
 # 2、规划分片架构
 
 - 2个分片，每个分片都是三个节点的复制集。【其中一个主节点、一个次节点、一个仲裁节点】
 - 1个配置复制集。【其中一个主节点、一个次节点、一个仲裁节点】
 - 1个路由节点。
-| IP | port | role |
-| --- | --- | --- |
-| **shard1** |  |  |
-| 192.168.95.202 | 27117 | PRIMARY |
+
+| IP             | port  | role      |
+| -------------- | ----- | --------- |
+| **shard1**     |       |           |
+| 192.168.95.202 | 27117 | PRIMARY   |
 | 192.168.95.202 | 27118 | SECONDARY |
-| 192.168.95.202 | 27119 | ARBITER |
-| **shard2** |  |  |
-| 192.168.95.202 | 27217 | PRIMARY |
+| 192.168.95.202 | 27119 | ARBITER   |
+| **shard2**     |       |           |
+| 192.168.95.202 | 27217 | PRIMARY   |
 | 192.168.95.202 | 27218 | SECONDARY |
-| 192.168.95.202 | 27219 | ARBITER |
-| **configsvr** |  |  |
-| 192.168.95.202 | 27317 | PRIMARY |
+| 192.168.95.202 | 27219 | ARBITER   |
+| **configsvr**  |       |           |
+| 192.168.95.202 | 27317 | PRIMARY   |
 | 192.168.95.202 | 27318 | SECONDARY |
-| 192.168.95.202 | 27319 | ARBITER |
-| **mongos** |  |  |
-| 192.168.95.202 | 27017 |  |
+| 192.168.95.202 | 27319 | ARBITER   |
+| **mongos**     |       |           |
+| 192.168.95.202 | 27017 |           |
 
 
 ## 2.1、创建各分片复制集目录
@@ -47,6 +48,7 @@
 - data 为数据目录
 - logs  为日志目录
 - pid 用于保存对应节点运行时的pid
+
 ```shell
 # 创建mongdb目录，其他副本集都在该目录下创建
 > mkdir /usr/etc/mongodb
@@ -108,7 +110,7 @@
 
 - 创建效果：
 
-![image.png](.images/1643285779817-0f4f376b-9b87-41de-9e34-d76f05100dbd.png)
+![image.png](.images_mongo分片集群搭建/1643285779817-0f4f376b-9b87-41de-9e34-d76f05100dbd.png)
 
 
 ## 2.2、创建各节点的配置文件
@@ -116,6 +118,7 @@
 #### 2.2.1、shard1各节点配置文件
 
 - PRIMARY节点（/usr/etc/mongodb/shard1/primary/config/mongod.conf）
+
 ```
   1 systemLog:
   2     #MongoDB发送所有日志输出的目标指定为文件
@@ -150,6 +153,7 @@
 ```
 
 - SECONDARY节点（/usr/etc/mongodb/shard1/seconary/config/mongod.conf）
+
 ```
   1 systemLog:
   2     #MongoDB发送所有日志输出的目标指定为文件
@@ -186,6 +190,7 @@
 ```
 
 - ARBITER节点（/usr/etc/mongodb/shard1/arbiter/config/mongod.conf）
+
 ```
  1 systemLog:
   2     #MongoDB发送所有日志输出的目标指定为文件
@@ -224,6 +229,7 @@
 #### 2.2.2、shard2各节点配置文件
 
 - PRIMARY节点（/usr/etc/mongodb/shard2/primary/config/mongod.conf）
+
 ```
   1 systemLog:
   2     #MongoDB发送所有日志输出的目标指定为文件
@@ -258,6 +264,7 @@
 ```
 
 - SECONDARY节点（/usr/etc/mongodb/shard2/seconary/config/mongod.conf）
+
 ```
   1 systemLog:
   2     #MongoDB发送所有日志输出的目标指定为文件
@@ -294,6 +301,7 @@
 ```
 
 - ARBITER节点（/usr/etc/mongodb/shard2/arbiter/config/mongod.conf）
+
 ```
  1 systemLog:
   2     #MongoDB发送所有日志输出的目标指定为文件
@@ -332,6 +340,7 @@
 #### 2.2.3、configsvr各节点配置文件
 
 - PRIMARY节点（/usr/etc/mongodb/configsvr/primary/config/mongod.conf）
+
 ```
   1 systemLog:
   2     #MongoDB发送所有日志输出的目标指定为文件
@@ -368,6 +377,7 @@
 ```
 
 - SECONDARY节点（/usr/etc/mongodb/configsvr/seconary/config/mongod.conf）
+
 ```
   1 systemLog:
   2     #MongoDB发送所有日志输出的目标指定为文件
@@ -404,6 +414,7 @@
 ```
 
 - ARBITER节点（/usr/etc/mongodb/configsvr/arbiter/config/mongod.conf）
+
 ```
   1 systemLog:
   2     #MongoDB发送所有日志输出的目标指定为文件
@@ -442,6 +453,7 @@
 #### 2.2.4、路由节点配置文件
 
 - mongos节点（/usr/etc/mongodb/mongos/config/mongod.conf）
+
 ```
  1 systemLog:
   2     #MongoDB发送所有日志输出的目标指定为文件
@@ -472,6 +484,7 @@
 # 3、搭建分片复制集
 
 ## 3.1、搭建shard1复制集
+
 ```shell
 > cd /usr/etc/mongodb
 # 启动分片1的三个副本节点
@@ -498,6 +511,7 @@ shard1:PRIMARY> rs.conf();
 ```
 
 ## 3.2、搭建shard2复制集
+
 ```shell
 > cd /usr/etc/mongodb
 # 启动分片2的三个副本节点
@@ -524,6 +538,7 @@ shard2:PRIMARY> rs.conf();
 ```
 
 ## 3.3、搭建configsvr复制集
+
 ```shell
 > cd /usr/etc/mongodb
 # 启动configsvr的三个副本节点
@@ -551,6 +566,7 @@ configsvr:PRIMARY> rs.conf();
 ```
 
 ## 3.4、搭建mongos路由节点
+
 ```shell
 > cd /usr/etc/mongodb
 # 启动 mongos 节点
@@ -611,7 +627,8 @@ mongos> sh.enableSharding("<database>")
 # 3、分片一个集合,参考如下截图
 mongos> sh.shardCollection()
 ```
-![image.png](.images/1643289629889-b133f93d-97ed-415f-861f-1b41ca9f680f.png)
+
+![image.png](.images_mongo分片集群搭建/1643289629889-b133f93d-97ed-415f-861f-1b41ca9f680f.png)
 
 **需了解更多分片知识请跳转至官方文档：**  [https://docs.mongodb.com/manual/sharding/](https://docs.mongodb.com/manual/sharding/)
 

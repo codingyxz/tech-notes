@@ -4,7 +4,7 @@
 
 
 
-![image-20250104155635039](.images/image-20250104155635039.png)
+![image-20250104155635039](.images_linux常用命令/image-20250104155635039.png)
 
 - /bin
   - 是Binary的缩写，这个目录存放着的是最经常使用的命令
@@ -50,7 +50,7 @@
 
 
 
-![image-20250104161420569](.images/image-20250104161420569.png)
+![image-20250104161420569](.images_linux常用命令/image-20250104161420569.png)
 
 #### 一般模式
 
@@ -123,7 +123,7 @@
     - service network restart   centos6
     - systemctl  restart NetworkManager  centos7
 
-![image-20250105081757820](.images/image-20250105081757820.png)
+![image-20250105081757820](.images_linux常用命令/image-20250105081757820.png)
 
 ​	
 
@@ -174,7 +174,7 @@
 
 - centos6
 
-![image-20250105091848807](.images/image-20250105091848807.png)
+![image-20250105091848807](.images_linux常用命令/image-20250105091848807.png)
 
 - centos7
   - multi-user.target  等价于原运行级别3（多用户有网，无图形界面）
@@ -366,7 +366,7 @@
 
 - sudo  ——>    设置普通用户具有root权限
 
-  ![image-20250105191135579](.images/image-20250105191135579.png)
+  ![image-20250105191135579](.images_linux常用命令/image-20250105191135579.png)
 
 - who  ——>   查看登录用户信息
 
@@ -407,11 +407,11 @@
 
 #### 5、文件权限
 
-![image-20250105201111334](.images/image-20250105201111334.png)
+![image-20250105201111334](.images_linux常用命令/image-20250105201111334.png)
 
-![image-20250105201428772](.images/image-20250105201428772.png)
+![image-20250105201428772](.images_linux常用命令/image-20250105201428772.png)
 
-![image-20250105201534096](.images/image-20250105201534096.png)
+![image-20250105201534096](.images_linux常用命令/image-20250105201534096.png)
 
 
 
@@ -515,7 +515,7 @@
   > 2、不保留原来的文件
   > 3、同时多个文件会产生多个压缩包
 
-![image-20250106145856995](.images/image-20250106145856995.png)
+![image-20250106145856995](.images_linux常用命令/image-20250106145856995.png)
 
 
 
@@ -549,7 +549,7 @@
   | -x   | 解包.tar文件       |
   | -C   | 解压到指定目录     |
 
-  ![image-20250106150752441](.images/image-20250106150752441.png)
+  ![image-20250106150752441](.images_linux常用命令/image-20250106150752441.png)
 
 
 
@@ -608,7 +608,7 @@
 
     - vi /etc/fstab
 
-    ![image-20250105225838432](.images/image-20250105225838432.png)
+    ![image-20250105225838432](.images_linux常用命令/image-20250105225838432.png)
 
 
 
@@ -695,7 +695,7 @@
 
   - 显示信息说明
 
-    ![image-20250106132330940](.images/image-20250106132330940.png)
+    ![image-20250106132330940](.images_linux常用命令/image-20250106132330940.png)
 
     - 第一行信息为任务队列信息
 
@@ -781,7 +781,7 @@
   - \* \* \* \* \* 执行的任务
     - 例：   */1 * * * *  /bin/echo '11' >> /root/baima.txt
 
-![image-20250106142549513](.images/image-20250106142549513.png)
+![image-20250106142549513](.images_linux常用命令/image-20250106142549513.png)
 
 #### 11、RPM与YUM
 
@@ -793,7 +793,7 @@
 >
 > RPM包的名称格式
 
-![image-20250106143146761](.images/image-20250106143146761.png)
+![image-20250106143146761](.images_linux常用命令/image-20250106143146761.png)
 
 - rpm -qa                           查询所安装的所有rmp软件包	
 
@@ -828,7 +828,7 @@
 
 > YUM（全称为 Yellow dog Updater,Modified）是一个在Fedora和Redhat以及Centos中的shell前端软件包管理器。基于RPM包管理，能够从指定的服务器自动下载RPM包并且安装，可以自定处理依赖性关系，并且一次安装所有的依赖的软件包，无需繁琐的一次次下载、安装。
 
-![image-20250106144136059](.images/image-20250106144136059.png)
+![image-20250106144136059](.images_linux常用命令/image-20250106144136059.png)
 
 - yum [选项] [参数]
 
@@ -862,7 +862,7 @@
 
   - 下载网易163或者阿里云的repos文件，任选其一。
 
-    ![image-20250106144905713](.images/image-20250106144905713.png)
+    ![image-20250106144905713](.images_linux常用命令/image-20250106144905713.png)
 
   - 使用下载好的repos文件替换默认的repos文件
 
